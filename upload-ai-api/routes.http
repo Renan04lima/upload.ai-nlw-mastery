@@ -21,5 +21,17 @@ POST http://localhost:3333/videos/ae88f7d7-6927-450b-a4ec-1f30ae18a024/transcrip
 Content-Type: application/json
 
 {
-    "prompt": "git, github"
+    "prompt": "git, github, gitflow"
+}
+
+###
+
+# @name ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "ae88f7d7-6927-450b-a4ec-1f30ae18a024",
+    "template": "gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}''' ",
+    "temperature": 0.5
 }
