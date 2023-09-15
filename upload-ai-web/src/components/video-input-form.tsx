@@ -17,7 +17,11 @@ const statusMessages = {
     'success': 'Concluído com sucesso!'
 }
 
-export function VideoInputForm() {
+interface VideoInputFormProps {
+    onVideoUploaded: (id: string) => void
+}
+
+export function VideoInputForm(props: VideoInputFormProps) {
     const [videoFile, setVideoFile] = useState<File | null>(null)
     const [status, setStatus] = useState<Status>('waiting')
 
@@ -79,7 +83,6 @@ export function VideoInputForm() {
 
         if (!videoFile) return
 
-
         setStatus('converting')
         const audioFile = await convertVideoToAudio(videoFile)
 
@@ -88,9 +91,6 @@ export function VideoInputForm() {
 
         setStatus('uploading')
         const response = await api.post('/upload', data)
-
-        console.log(response.data)
-
         const videoId = response.data.video.id
 
         setStatus('generating')
@@ -98,6 +98,7 @@ export function VideoInputForm() {
 
 
         setStatus('success')
+        props.onVideoUploaded(videoId)
     }
 
     const previewURL = useMemo(() => {
